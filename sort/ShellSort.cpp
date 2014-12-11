@@ -3,6 +3,7 @@
 
 void ShellSort(int *a,int length);
 void InsertSort(int *a,int length,int incre=1);
+void ShellSort2(int *a,int length);
 
 int main(int argc, char const *argv[])
 {
@@ -15,7 +16,7 @@ int main(int argc, char const *argv[])
 	for(auto item:a)
 		printf("%d ",item);
 	printf("\n");
-	ShellSort(a,length);
+	ShellSort2(a,length);
 	a[0]=0;
 	for(auto item:a)
 		printf("%d ",item);
@@ -45,6 +46,26 @@ void InsertSort(int *a,int length,int incre){
 				a[j+incre] = a[j];		 
 			} 
 			a[j+incre] = a[0];		 
+		}
+	}
+}
+
+void ShellSort2(int *a,int length){
+	int i,j;
+	int increment=length;
+	while(increment>1){
+		increment/=2;
+		//对后面的数使用插入排序的方法插入前面已排好的子序列
+		//对于每个子序列都是从第2个开始的，所以这里的i从increment+1处开始，前面的数都是每个子序列的
+		//的第一个数
+		for (i=increment+1; i<=length; ++i)
+		{
+			if(a[i]<a[i-increment]){
+				a[0] = a[i];
+				for(j=i-increment;j>=0&&a[j]>a[0];j-=increment)
+					a[j+increment] = a[j];
+				a[j+increment]=a[0];
+			}
 		}
 	}
 }
