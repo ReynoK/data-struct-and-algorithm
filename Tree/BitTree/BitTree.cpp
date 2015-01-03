@@ -21,6 +21,31 @@ BinaryTree::BinaryTree():root(NULL){
 	createTree(root);
 }
 
+BinaryTree::BinaryTree(int *preorder,int *inorder, int length){
+	cout<<"根据前序遍历结果和中序遍历结果重建二叉树"<<endl;
+	rebuildBitTree(preorder,inorder,length);
+}
+
+BinaryTree::~BinaryTree(){
+	if(!root)
+		return;
+	cout<<"开始析构树"<<endl;
+	destroyTree(root);
+}
+//解析过程和后序遍历类似，先析构左右子树，然后析构根节点
+void BinaryTree::destroyTree(BitTree &tree){
+	if(!tree)
+		return;
+	if(tree->lchild)
+		destroyTree(tree->lchild);
+	if(tree->rchild)
+		destroyTree(tree->rchild);
+	cout<<"析构当前元素为"<<tree->data<<"的节点"<<endl;
+	free(tree);
+	tree=NULL;
+}
+
+
 //先序创建二叉树
 void BinaryTree::createTree(BitTree & node){
 	int data;
@@ -221,6 +246,64 @@ void BinaryTree::breadthFirstVisit(){
 	}
 }
 
+//根据前序遍历结果和中序遍历结果重建二叉树
+/*
+思想：前序遍历结果集中第一个元素为子树根节点，中序遍历结果中子树根节点左边为左
+子树属于的节点，子树根节点右边的为右子树属于的节点，通过这种思想不断的递归创建
+左右子树
+*/
+void BinaryTree::rebuildBitTree(int *preorder,int *inorder, int length){
+	if(preorder==NULL || inorder==NULL || length<=0)	//数据右误
+		return;
+	if(root)
+		throw new MyException("树非空!");
+	root = constructBitTree(preorder,preorder+length-1,
+							inorder,inorder+length-1);
+}
+//重建二叉树的子过程
+BitTree BinaryTree::constructBitTree(
+	int *startPreorder,int *endPreorder,
+	int *startInorder, int *endInorder)
+{
+	EleType root = startPreorder[0];
+	BitNode* node = (BitNode*)malloc(sizeof(BitNode));
+	node->data = root;
+	node->rchild = node->lchild = NULL;
+
+	//当前节点为叶子节点
+	if(startPreorder == endPreorder){
+		if(startInorder == endInorder)
+			return node;
+		else
+			throw new MyException("Invaild input!");
+	}
+
+	//在中序遍历结果中寻找根节点的值
+	int *rootInorder = startInorder;
+	while(rootInorder<endInorder && (*rootInorder)!=root)
+		++rootInorder;
+	//当根节点值不存在于中序遍历结果中
+	if(rootInorder ==endInorder && (*rootInorder)!=root)
+		throw new MyException("Invaild input!");
+
+	//左子树节点数量
+	int leftLength = rootInorder - startInorder;
+	//前序遍历结果中左子树的右边界
+	int *leftEndPreorder = startPreorder + leftLength;
+	if(leftLength>0){//如果当前节点存在左子树
+		node->lchild = constructBitTree(startPreorder+1,leftEndPreorder,
+										startInorder,rootInorder-1);
+	}
+	//右子树节点数量
+	int rightLength = endInorder - rootInorder;
+	//前序遍历结果中右子树的左边界
+	int *rightStartPreorder = leftEndPreorder + 1;
+	if(rightLength>0){//如果当前节点存在右子树
+		node->rchild = constructBitTree(rightStartPreorder,endPreorder,
+										rootInorder+1,endInorder);
+	}
+	return node;
+}
 
 void BinaryTree::BinaryTree::visit(EleType &data,int level){
 	//设置输出的宽度
