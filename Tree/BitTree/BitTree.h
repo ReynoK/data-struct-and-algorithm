@@ -1,3 +1,9 @@
+/*
+author:zhainankl
+created on:2015年1月3号
+reference：http://www.cnblogs.com/dolphin0520/archive/2011/08/25/2153720.html
+		   http://www.cnblogs.com/lscheng/archive/2013/09/11/3313947.html
+*/
 #ifndef BITTREE_H
 #define BITTREE_H
 
@@ -9,13 +15,6 @@ typedef struct _Node{
 	struct _Node *lchild;
 	struct _Node *rchild;
 }BitNode,*BitTree;
-
-/*
-author:zhainankl
-created on:2015年1月3号
-reference：http://www.cnblogs.com/dolphin0520/archive/2011/08/25/2153720.html
-		   http://www.cnblogs.com/lscheng/archive/2013/09/11/3313947.html
-*/
 
 //tree的类定义
 class BinaryTree{

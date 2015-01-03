@@ -2,7 +2,7 @@
 author:zhainankl
 created on:2015年1月3号
 reference：http://www.cnblogs.com/dolphin0520/archive/2011/08/25/2153720.html
-		   http://www.cnblogs.com/lscheng/archive/2013/09/11/3313947.html
+		   http://www.blogjava.net/fancydeepin/archive/2013/02/03/395073.html
 */
 
 #include "BitTree.h"
@@ -32,7 +32,7 @@ BinaryTree::~BinaryTree(){
 	cout<<"开始析构树"<<endl;
 	destroyTree(root);
 }
-//解析过程和后序遍历类似，先析构左右子树，然后析构根节点
+//析构过程和后序遍历类似，先析构左右子树，然后析构根节点
 void BinaryTree::destroyTree(BitTree &tree){
 	if(!tree)
 		return;
@@ -105,6 +105,13 @@ void BinaryTree::postorderVisit(){
 }
 
 //非递归前序遍历二叉树
+/*
+思想：根据前序遍历访问的顺序，优先访问根结点，然后再分别访问左孩子和右孩子。即对于任一结点，其可看做是根结点，因此可以直接访问，访问完之后，若其左孩子不为空，按相同规则访问它的左子树；当访问其左子树时，再访问它的右子树。因此其处理过程如下：
+对于任一结点P：
+1) 访问结点P，并将结点P入栈;
+2) 判断结点P的左孩子是否为空，若为空，则取栈顶结点并进行出栈操作，并将栈顶结点的右孩子置为当前的结点P（对p进行相同的操作），循环至1);若不为空，则将P的左孩子置为当前的结点P;
+3) 直到P为NULL并且栈为空，则遍历结束。
+*/
 void BinaryTree::NoRePreorderVisit(){
 	stack<BitNode*> bitNodeStack;
 	BitNode *p = root;
@@ -117,7 +124,7 @@ void BinaryTree::NoRePreorderVisit(){
 		if(!bitNodeStack.empty()){
 			p = bitNodeStack.top();
 			//当前栈顶节点已经打印过（访问过了，此处只是为了得到其右子树），
-			//所需要的只是遍历其右子树，此节点已无需再用，因此在此处将其弹出栈
+			//所需要的只是遍历其右子树，此节点已无需访问，因此在此处将其弹出栈
 			bitNodeStack.pop();
 			p = p->rchild;	//相当于每次循环都是遍历一次子树
 		}
@@ -144,6 +151,15 @@ void BinaryTree::NoRePreorderVisit2(){
 }
 
 //非递归中序遍历二叉树
+/*
+思想：根据中序遍历的顺序，对于任一结点，优先访问其左孩子，而左孩子结点又可以看做一根结点，
+然后继续访问其左孩子结点，直到遇到左孩子结点为空的结点才进行访问，然后按相同的规则访问其右子树。
+因此其处理过程如下：
+对于任一结点P，
+1)若其左孩子不为空，则将P入栈并将P的左孩子置为当前的P，然后对当前结点P再进行相同的处理；
+2)若其左孩子为空，则取栈顶元素并进行出栈操作，访问该栈顶结点，然后将当前的P置为栈顶结点的右孩子；
+3)直到P为NULL并且栈为空则遍历结束
+*/
 void BinaryTree::NoReInorderVisit(){
 	stack<BitNode*> bitNodeStack;
 	BitNode * p = root;
@@ -168,7 +184,7 @@ void BinaryTree::NoReInorderVisit(){
 思想：中序遍历的特点：先访问其左子节点，然后访问根节点，接着访问其右节点。
 根据栈的性质（后近先出），中序遍历在栈的顺序应该是从栈底至栈顶依次是右节点，
 根节点，左节点，为了得到这样的顺序，设置一个标志位用来标志此节点的左右子节点
-在栈中的顺序是否正确（即是否已经被处理，也可以看作是其左节点未处理）。
+在栈中的顺序是否正确（即是否已经被处理，也可以看作是其左节点是否被处理）。
 在程序中，当得到一个节点时，先将其右节点压入栈中，然后压入根节点，最后压入左节点
 */
 void BinaryTree::NoReInorderVisit2(){
@@ -195,7 +211,7 @@ void BinaryTree::NoReInorderVisit2(){
 	}
 }
 
-//非递归遍历二叉树
+//非递归后序遍历二叉树
 /*
 思路：类似'非递归中序遍历二叉树'，设置一个表示为用来表示其左右子节点是否已经访问，
 （即表示当前与其左右子节点在栈中的顺序是否正确）

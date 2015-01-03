@@ -5,9 +5,10 @@ using namespace std;
 #define SIZE 9
 
 int main(){
-	int preorder[SIZE] = {1,2,4,5,6,3,7,8,9};
-	int inorder[SIZE] = {5,4,6,2,1,8,7,9,3};
-	BinaryTree tree(preorder,inorder,SIZE);
+	// int preorder[SIZE] = {1,2,4,5,6,3,7,8,9};
+	// int inorder[SIZE] = {5,4,6,2,1,8,7,9,3};
+	// BinaryTree tree(preorder,inorder,SIZE);
+	BinaryTree tree;
 	cout<<"前序递归遍历：   ";
 	tree.preorderVisit();
 	cout<<endl;
