@@ -22,6 +22,7 @@ public:
 	void NoRePreorderVisit2();
 	void NoReInorderVisit();
 	void NoReInorderVisit2();
+	void NoRePostorderVisit();
 private:
 	void visit(EleType &data,int level);
 	void preorderTraversal(BitTree & node,int level=0);

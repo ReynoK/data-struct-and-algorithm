@@ -1,9 +1,16 @@
+/*
+author:zhainankl
+created on:2015年1月3号
+reference：http://www.cnblogs.com/dolphin0520/archive/2011/08/25/2153720.html
+*/
+
 #include "BitTree.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <exception>
 #include <iostream>
 #include <stack>
+#include <utility>
 #include "MyException.h"
 using namespace std;
 
@@ -61,7 +68,8 @@ void BinaryTree::postorderTraversal(BitTree & node,int level){
 		return;
 	postorderTraversal(node->lchild,level+1);
 	postorderTraversal(node->rchild,level+1);
-	visit(node->data,level);
+	cout<<node->data<<" ";
+	// visit(node->data,level);
 }
 
 //中序递归遍历二叉树的包装
@@ -90,6 +98,8 @@ void BinaryTree::NoRePreorderVisit(){
 }
 //非递归前序遍历版本2 
 void BinaryTree::NoRePreorderVisit2(){
+	if(!root)
+		return ;
 	stack<BitNode*> bitNodeStack;
 	BitNode *p = root,*q = NULL;
 	bitNodeStack.push(p);
@@ -127,14 +137,65 @@ void BinaryTree::NoReInorderVisit(){
 }
 
 //非递归中序遍历二叉树版本2
+/*
+思想：中序遍历的特点：先访问其左子节点，然后访问根节点，接着访问其右节点。
+根据栈的性质（后近先出），中序遍历在栈的顺序应该是从栈底至栈顶依次是右节点，
+根节点，左节点，为了得到这样的顺序，设置一个标志位用来标志此节点的左右子节点
+在栈中的顺序是否正确（即是否已经被处理，也可以看作是其左节点未处理）。
+在程序中，当得到一个节点时，先将其右节点压入栈中，然后压入根节点，最后压入左节点
+*/
 void BinaryTree::NoReInorderVisit2(){
-	stack<bitNode*> bitNodeStack;
-	BitNode * p = root,q = NULL;
-	bitNodeStack.push(p);
+	if (!root)	//当树为空时退出
+		return ;
+	//栈存入的类型为pair<节点指针,是否已处理>
+	stack< pair<BitNode*,bool> > bitNodeStack;
+	BitNode * p = root,*q = NULL;
+	bool used;
+	bitNodeStack.push( make_pair(p,false));
 	while(!bitNodeStack.empty()){
-		
+		q = bitNodeStack.top().first;
+		used = bitNodeStack.top().second;
+		bitNodeStack.pop();
+		if(!used){	//判断该节点是否已经被处理
+			//未处理，将该节点及其子节点已正确的方式压入栈中
+			if(q->rchild) bitNodeStack.push( make_pair(q->rchild,false));
+			bitNodeStack.push( make_pair(q,true));
+			if(q->lchild) bitNodeStack.push(make_pair(q->lchild,false));
+		}
+		else{
+			cout<<q->data<<" ";
+		}
 	}
+}
 
+//非递归遍历二叉树
+/*
+思路：类似'非递归中序遍历二叉树'，设置一个表示为用来表示其左右子节点是否已经访问，
+（即表示当前与其左右子节点在栈中的顺序是否正确）
+*/
+void BinaryTree::NoRePostorderVisit(){
+	if(!root)	//当树为空时退出
+		return;
+	//栈存入的类型为pair<节点指针,是否已处理>
+	stack< pair<BitNode*,bool> > bitNodeStack; 
+	BitNode * p = root;
+	bool used;
+	bitNodeStack.push( make_pair(p,false));
+	while(!bitNodeStack.empty()){	//当栈非空时
+		p = bitNodeStack.top().first;
+		used = bitNodeStack.top().second;
+		bitNodeStack.pop();
+		if(!used){//当前节点的数序是否处理
+			//将当前跟节点压入栈中，其顺序已正确处理
+			bitNodeStack.push( make_pair(p,true));
+			if(p->rchild) //左子节点非空时
+				bitNodeStack.push( make_pair(p->rchild,false));
+			if(p->lchild)	//右子节点非空时
+				bitNodeStack.push( make_pair(p->lchild,false));
+		}
+		else
+			cout<<p->data<<" ";
+	}
 }
 
 void BinaryTree::BinaryTree::visit(EleType &data,int level){
