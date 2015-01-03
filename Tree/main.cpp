@@ -30,5 +30,9 @@ int main(){
 	cout<<"后序非递归遍历：";
 	tree.NoRePostorderVisit();
 	cout<<endl;
+
+	cout<<"广度优先遍历二叉树：";
+	tree.breadthFirstVisit();
+	cout<<endl;
 	return 0;
 }

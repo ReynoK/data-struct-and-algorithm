@@ -2,6 +2,7 @@
 author:zhainankl
 created on:2015年1月3号
 reference：http://www.cnblogs.com/dolphin0520/archive/2011/08/25/2153720.html
+		   http://www.cnblogs.com/lscheng/archive/2013/09/11/3313947.html
 */
 
 #include "BitTree.h"
@@ -11,6 +12,7 @@ reference：http://www.cnblogs.com/dolphin0520/archive/2011/08/25/2153720.html
 #include <iostream>
 #include <stack>
 #include <utility>
+#include <queue>
 #include "MyException.h"
 using namespace std;
 
@@ -197,6 +199,28 @@ void BinaryTree::NoRePostorderVisit(){
 			cout<<p->data<<" ";
 	}
 }
+
+//广度优先遍历
+/*
+思想：利用队列先进先出的特点，先让左子树入列，然后让右子树入列
+*/
+void BinaryTree::breadthFirstVisit(){
+	if(!root)
+		return;
+	queue<BitNode*> bitNodeQueue;
+	BitNode * q = root;
+	bitNodeQueue.push(q);
+	while(!bitNodeQueue.empty()){
+		q = bitNodeQueue.front();
+		cout<<q->data<<" ";
+		bitNodeQueue.pop();
+		if(q->lchild) 
+			bitNodeQueue.push(q->lchild);
+		if(q->rchild)
+			bitNodeQueue.push(q->rchild);
+	}
+}
+
 
 void BinaryTree::BinaryTree::visit(EleType &data,int level){
 	//设置输出的宽度
