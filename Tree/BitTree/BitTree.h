@@ -18,6 +18,9 @@ typedef struct _Node{
 
 //tree的类定义
 class BinaryTree{
+friend bool hasTree(BinaryTree &t1,BinaryTree &t2);
+friend bool hasSubTree(BitTree n1,BitTree t2);
+friend bool isTree1HasTree2(BitNode * t1,BitNode * t2);
 public:
 	BinaryTree();
 	BinaryTree(int*,int*,int);
@@ -42,4 +45,8 @@ private:
 	void destroyTree(BitTree &tree);
 	BitTree root;
 };
+
+bool hasTree(BinaryTree &t1,BinaryTree &t2);
+bool hasSubTree(BitTree n1,BitTree t2);
+bool isTree1HasTree2(BitNode * t1,BitNode * t2);
 #endif

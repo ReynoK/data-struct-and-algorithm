@@ -328,4 +328,38 @@ void BinaryTree::BinaryTree::visit(EleType &data,int level){
 		cout<<" ";
 	cout<<data<<endl;
 }
+//包装函数
+bool hasTree(BinaryTree &t1,BinaryTree &t2){
+	return hasSubTree(t1.root,t2.root);
+}
+//是否有子树
+bool hasSubTree(BitTree t1,BitTree t2){
+	bool result = false;
+	if(NULL!=t1 && NULL !=t2){
+		if(t1->data == t2->data)	//当前节点是否相同
+			result = isTree1HasTree2(t1,t2);
+		if(!result)
+			//查看左子树是否右子树
+			result = hasSubTree(t1->lchild,t2);
+		if(!result)
+			//查看右子树是否右子树
+			result = hasSubTree(t1->rchild,t2);
+	}
+	return result;
+}
+//利用递归来判断节点时候相等
+bool isTree1HasTree2(BitNode * n1,BitNode * n2){
+	//递归终结：树2已遍历完毕或有节点不想等
+	if(n2 == NULL)	//树t2已经到叶子节点
+		return true;
+	if(n1 == NULL)	//树1已到叶子结点
+		return false;
+
+	if(n1->data != n2->data)	//节点不等
+		return false;
+	else{						//比较左右子节点
+		return isTree1HasTree2(n1->lchild,n2->lchild) &&
+				isTree1HasTree2(n2->rchild,n2->rchild);
+	}
+}
 
