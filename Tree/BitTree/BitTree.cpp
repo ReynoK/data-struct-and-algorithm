@@ -363,3 +363,58 @@ bool isTree1HasTree2(BitNode * n1,BitNode * n2){
 	}
 }
 
+void BinaryTree::mirrorBitTree(){
+	mirrorRecursively(root);
+}
+//递归镜像二叉树
+void BinaryTree::mirrorRecursively(BitNode * n1){
+	if(!n1)
+		return;
+	BitNode * temp = n1->lchild;
+	n1->lchild = n1->rchild;
+	n1->rchild = temp;
+	if(n1->lchild)
+		mirrorRecursively(n1->lchild);
+	if(n1->rchild)
+		mirrorRecursively(n1->rchild);
+}
+
+//将二叉搜索树转化为双向链表
+BitNode * BinaryTree::treeToList(){
+	BitNode * lastNode = NULL;
+	convertNode(root,lastNode);
+	root = NULL;
+	//此时lastNode指向尾部，通过循环让其指向头部
+	while(lastNode->lchild)
+		lastNode = lastNode->lchild;
+	return lastNode;
+}
+
+//
+/*
+思想：由于二叉树是有序的，中序遍历可以从小到大访问链表，用lastNode表示前一个（访问的）节点，
+在访问当前的同时，转换为链表。整个过程起来就是：将当前访问的节点加入链表，同时更新当前节点为
+链表的最后一个，而访问采用中序遍历的形式。
+lastNode：当前已经处理好链表的尾节点,即当前节点在双向链表的中的前继节点
+*/
+void BinaryTree::convertNode(BitNode * node,BitNode* &lastNode){
+	if(node == NULL)
+		return;
+	//使左子树形成双向链表，lastNode指向双向链表的尾部
+	if(node->lchild)
+		convertNode(node->lchild,lastNode);
+	//使当前节点与前继节点连接（相当于中序中的正在访问当前节点）
+	//这里的前继节点表示上次访问的最近节点（左子树中的最大值）
+	node->lchild = lastNode;
+	if(lastNode)
+		lastNode->rchild = node;
+	//当前节点也与左边形成双向链表，更新当前根节点为链表的最后一个节点
+	lastNode = node;
+	//处理右子树（访问右子树）
+	if(node->rchild)
+		convertNode(node->rchild,lastNode);
+}
+
+
+
+

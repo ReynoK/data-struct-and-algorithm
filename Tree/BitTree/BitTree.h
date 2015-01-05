@@ -36,6 +36,9 @@ public:
 	void NoRePostorderVisit();
 	void breadthFirstVisit();
 	void rebuildBitTree(int *,int *,int);
+	void mirrorBitTree();
+	//二叉搜索树convert to 双向链表，暂时写到这里
+	BitNode *treeToList();
 private:
 	void visit(EleType &data,int level);
 	void preorderTraversal(BitTree & node,int level=0);
@@ -43,6 +46,9 @@ private:
 	void postorderTraversal(BitTree & node,int level=0);
 	BitTree constructBitTree(int *,int *,int *, int *);
 	void destroyTree(BitTree &tree);
+	void convertNode(BitNode * node,BitNode* &lastNode);
+	void mirrorRecursively(BitNode * n1);
+
 	BitTree root;
 };
 
