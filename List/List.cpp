@@ -7,6 +7,41 @@ using namespace std;
 CList::CList():m_list(NULL){
 	initList();
 }
+//拷贝构造函数
+CList::CList(const CList& list):m_list(NULL){
+	//当被复制的链表为空
+	if(!list.m_list)
+		return;
+	copyList(list);
+}
+//拷贝赋值函数
+CList& CList::operator=(const CList& list){
+	if(list.m_list == m_list)
+		return *this;
+	destroyList();
+	copyList(list);
+	return *this;
+}
+/*复制链表
+*/
+void CList::copyList(const CList& list){
+	ListNode * pre = NULL;
+	ListNode * temp = list.m_list;
+	while(temp){
+		ListNode * node = (ListNode*)malloc(sizeof(ListNode));
+		node->data = temp->data;
+		node->next = NULL;
+		if(m_list==NULL){
+			m_list = node;
+			pre = m_list;
+			temp = temp->next;
+			continue;
+		}
+		pre->next = node;
+		pre = pre->next;
+		temp = temp->next;
+	}
+}
 
 CList::~CList(){
 	destroyList();
@@ -47,6 +82,7 @@ void CList::destroyList(){
 		m_list = m_list->next;
 		free(q);
 	}
+	m_list = NULL;	//将头指针置空
 }
 //寻找倒数第k个节点
 /*思路：（1）普通思路，得到链表数量（通过访问所有节点），然后找到地n-k+1个节点，花费时间较长
@@ -95,14 +131,71 @@ void CList::reverseList(){
 		q = r;		
 	} 
 }
+// /*要求：获得两个链表第一个相同的位置的值
+// */
+// int CList::findFirstCommondNode(const CList& list){
+// 	int listLength1 = getLength(m_list);
+// 	int listLength2 = getLength(list.m_list);
+// 	int diff = 0;
+// 	List listLong = m_list;
+// 	List listShort = list.m_list;
+// 	if(listLength1>listLength2){
+// 		diff = listLength1 - listLength2;
+// 	}else{
+// 		listLong = list.m_list;
+// 		listShort = m_list;
+// 		diff = listLength2 - listLength1;
+// 	}
+// 	cout<<"diff:"<<diff<<endl;
+// 	while(diff--){
+// 		listLong = listLong->next;
+// 	}
+// 	while(listLong!=NULL && listShort!=NULL && listShort!=listLong){
+// 		listLong = listLong->next;
+// 		listShort = listShort->next;
+// 	}
+// 	if(listLong)
+// 		return listLong->data;
+// 	else
+// 		return 0;
+// }
+
+unsigned int CList::getLen(){
+	return getLength(m_list);
+}
+
+
+unsigned int CList::getLength(const List& listHead){
+	unsigned int len = 0;
+	List temp = listHead;
+	while(temp){
+		len++;
+		temp=temp->next;
+	}
+	return len;
+}
+
+
 
 
 int main(int argc, char const *argv[])
 {
 	CList list;
+	cout<<"list:";
 	list.travelList();
-	list.reverseList();
-	list.travelList();
+	CList list2(list);
+	cout<<"list2:";
+	list2.travelList();
+	// cout<<"commonNodeValue:"<<list.findFirstCommondNode(list2)<<endl;;
+	// list.travelList();
+	// cout<<"list2:";
+	// list2.travelList();
+	// list2 = list;
+	// list.reverseList();
+	// cout<<"list2:";
+	// list2.travelList();
+	// cout<<"list lenght:"<<list2.getLen()<<endl;
+
 	// int k;
 	// ListNode *temp=NULL;
 	// cout<<"所寻找的节点的倒数位置：";
