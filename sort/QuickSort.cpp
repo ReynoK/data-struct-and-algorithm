@@ -8,25 +8,25 @@ void swap(int *a,int m,int n);
 void QSort1(int *a,int low,int heigh);
 int Partition1(int *a,int low,int heigh);
 
-int main(int argc, char const *argv[])
-{
-	//a[0]用作哨兵或临时变量
-	int a[]={0,5,3,2,34,21,225,76,45,36,24,164,24,75,34,23,56,34,55,15,67,65,34,75,43};
-	int length = sizeof(a)/sizeof(int)-1;
-	//辅助数组，因为在排序过程中传入了坐标的范围，每次操作只在一定范围内,不会影响到其他递归，所以可以只用一个辅助数组即可
-	int *temp = new int[length+1];
-	//打印未排序数组
-	for(auto item:a)
-		printf("%d ",item);
-	printf("\n");
-	QSort1(a,1,length);
-	//打印排序数组
-	for(auto item:a)
-		printf("%d ",item);
-	printf("\n");
-	delete [] temp;
-	return 0;
-}
+// int main(int argc, char const *argv[])
+// {
+// 	//a[0]用作哨兵或临时变量
+// 	int a[]={0,5,3,2,34,21,225,76,45,36,24,164,24,75,34,23,56,34,55,15,67,65,34,75,43};
+// 	int length = sizeof(a)/sizeof(int)-1;
+// 	//辅助数组，因为在排序过程中传入了坐标的范围，每次操作只在一定范围内,不会影响到其他递归，所以可以只用一个辅助数组即可
+// 	int *temp = new int[length+1];
+// 	//打印未排序数组
+// 	for(auto item:a)
+// 		printf("%d ",item);
+// 	printf("\n");
+// 	QSort1(a,1,length);
+// 	//打印排序数组
+// 	for(auto item:a)
+// 		printf("%d ",item);
+// 	printf("\n");
+// 	delete [] temp;
+// 	return 0;
+// }
 
 
 void QSort(int *a,int low,int heigh){

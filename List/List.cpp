@@ -178,30 +178,31 @@ unsigned int CList::getLength(const List& listHead){
 
 
 
-int main(int argc, char const *argv[])
-{
-	CList list;
-	cout<<"list:";
-	list.travelList();
-	CList list2(list);
-	cout<<"list2:";
-	list2.travelList();
-	// cout<<"commonNodeValue:"<<list.findFirstCommondNode(list2)<<endl;;
-	// list.travelList();
-	// cout<<"list2:";
-	// list2.travelList();
-	// list2 = list;
-	// list.reverseList();
-	// cout<<"list2:";
-	// list2.travelList();
-	// cout<<"list lenght:"<<list2.getLen()<<endl;
 
-	// int k;
-	// ListNode *temp=NULL;
-	// cout<<"所寻找的节点的倒数位置：";
-	// cin>>k;
-	// if((temp = list.findKthToTail(k))!=NULL)
-	// 	cout<<temp->data<<endl;
-	return 0;
-}
+// int main(int argc, char const *argv[])
+// {
+// 	CList list;
+// 	cout<<"list:";
+// 	list.travelList();
+// 	CList list2(list);
+// 	cout<<"list2:";
+// 	list2.travelList();
+// 	// cout<<"commonNodeValue:"<<list.findFirstCommondNode(list2)<<endl;;
+// 	// list.travelList();
+// 	// cout<<"list2:";
+// 	// list2.travelList();
+// 	// list2 = list;
+// 	// list.reverseList();
+// 	// cout<<"list2:";
+// 	// list2.travelList();
+// 	// cout<<"list lenght:"<<list2.getLen()<<endl;
+
+// 	// int k;
+// 	// ListNode *temp=NULL;
+// 	// cout<<"所寻找的节点的倒数位置：";
+// 	// cin>>k;
+// 	// if((temp = list.findKthToTail(k))!=NULL)
+// 	// 	cout<<temp->data<<endl;
+// 	return 0;
+// }
 

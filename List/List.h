@@ -7,6 +7,7 @@ typedef struct ListNode{
 }ListNode,*List;
 
 class CList{
+	friend int findFirstCommandNode(CList &list1,CList &list2);
 public:
 	CList();
 	CList(const CList&);//拷贝构造函数
