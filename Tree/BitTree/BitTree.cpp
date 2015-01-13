@@ -21,7 +21,7 @@ BinaryTree::BinaryTree():root(NULL){
 	createTree(root);
 }
 
-BinaryTree::BinaryTree(int *preorder,int *inorder, int length){
+BinaryTree::BinaryTree(int *preorder,int *inorder, int length):root(NULL){
 	cout<<"根据前序遍历结果和中序遍历结果重建二叉树"<<endl;
 	rebuildBitTree(preorder,inorder,length);
 }

@@ -20,6 +20,9 @@ typedef struct _Node{
 class BinaryTree{
 friend bool hasTree(BinaryTree &t1,BinaryTree &t2);
 friend bool hasSubTree(BitTree n1,BitTree t2);
+friend int BitTreeDepth(BitTree& root);
+friend int getTreeDepth(BinaryTree &tree);
+friend bool IsBalanced(BinaryTree &tree);
 friend bool isTree1HasTree2(BitNode * t1,BitNode * t2);
 public:
 	BinaryTree();
