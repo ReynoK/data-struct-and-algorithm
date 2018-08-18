@@ -33,3 +33,16 @@ void PrintArray(const IntArray &array)
     }
     std::cout << std::endl;
 }
+
+void swap(ArrayIter val1, ArrayIter val2){
+    int temp = *val1;
+    *val1 = *val2;
+    *val2 = temp;
+}
+
+void swap(int &a, int &b)
+{
+    int temp = a;
+    a = b;
+    b = temp;
+}
