@@ -39,7 +39,8 @@ class TestSolution(unittest.TestCase):
         self.assertEqual(self.s.findMin(input), 1)
     
     def test_two(self):
-        pass
+        input = [1, 2, 3]
+        self.assertEqual(self.s.findMin(input), 0)
 
 if __name__ == "__main__":
     unittest.main()
