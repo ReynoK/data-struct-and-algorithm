@@ -16,28 +16,34 @@ class Solution:
         l = 0
         h = len(nums) - 1
 
-        while l <= h:
+        while l < h-1:
             m = (l + h) // 2
-            if nums[m] > nums[m+1]:
-                return nums[m+1]
-            
-            if nums[m]< nums[m-1]:
-                return nums[m]
 
-            if nums[m] > nums[0]:
-                l = m + 1
+            if nums[m] == nums[l] and nums[m] == nums[h]:
+                return min(nums[l:h+1])
+
+            if nums[m] >= nums[l]:
+                l = m
             else:
-                h = m - 1
-    
+                # 右边有序
+                h = m
+        return nums[h]
+
 class TestSolution(unittest.TestCase):
     def setUp(self):
         self.s = Solution()
 
     def test_one(self):
-        pass
+        input = [1, 3, 5]
+        self.assertEqual(self.s.findMin(input), 1)
     
     def test_two(self):
-        pass
+        input = [2,2,2,0,1]
+        self.assertEqual(self.s.findMin(input), 0)
+
+    def test_three(self):
+        input = [2, 0, 1,2]
+        self.assertEqual(self.s.findMin(input), 0)
 
 if __name__ == "__main__":
     unittest.main()
