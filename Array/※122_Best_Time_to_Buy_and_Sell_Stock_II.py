@@ -15,6 +15,26 @@ class Solution(object):
         :rtype: int
         """
 
+        if len(prices) < 2:
+            return 0
+
+        own = [0] * len(prices)
+        no_own = [0] * len(prices)
+        own[0] = -prices[0]
+
+        for i in range(1, len(prices)):
+            own[i] = max(own[i-1], no_own[i-1] - prices[i])
+            no_own[i] = max(no_own[i-1], own[i] + prices[i])
+
+        return no_own[-1]
+                
+
+    def maxProfit2(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+
         if len(prices)<2:
             return 0
 
@@ -23,7 +43,6 @@ class Solution(object):
         sell_price = prices[0]   
         for index in range(1, len(prices)):
             if prices[index] < prices[index - 1]:
-                print(index,(prices[index-1] - sell_price))
                 max_profit += (prices[index-1] - sell_price)
                 sell_price = prices[index]
         max_profit += (prices[-1] - sell_price)
@@ -34,6 +53,11 @@ class Solution(object):
 class TestSolution(unittest.TestCase):
     def test_one(self):
         prices = [7,1,5,3,6,4]
+        s = Solution()
+        print(s.maxProfit(prices))
+
+    def test_two(self):
+        prices = [1, 2, 3, 4, 5]
         s = Solution()
         print(s.maxProfit(prices))
 
