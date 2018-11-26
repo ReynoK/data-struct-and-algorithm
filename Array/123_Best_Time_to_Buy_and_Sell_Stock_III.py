@@ -2,6 +2,23 @@ import unittest
 from pprint import pprint
 
 class Solution:
+    def maxProfit(self, prices):
+        if len(prices) < 2:
+            return 0
+
+        length = len(prices)
+
+        own = [[0]*(length) for i in range(3)]
+        no_own = [[0]*(length) for i in range(3)]
+
+        own[1][0] = own[2][0] = -prices[0]
+
+        for k in range(1,3):
+            for j in range(1, length):
+                own[k][j] = max(own[k][j-1], no_own[k-1][j-1] - prices[j])
+                no_own[k][j] = max(no_own[k][j-1], own[k][j-1] + prices[j])
+        return no_own[-1][-1]
+
     def maxProfit2(self, prices):
         """
         :type prices: List[int]
@@ -11,36 +28,6 @@ class Solution:
         if len(prices) < 2:
             return 0
 
-        buy = [[0]*(len(prices) + 1) for i in range(3) ]
-        sell = [[0]*(len(prices) + 1) for i in range(3)]
-
-        # buy[0][1] = buy[0][0] = -prices[0]
-        buy[1][0] = buy[1][1] = -prices[0]
-        buy[2][0] = buy[2][1] = -prices[0]
-
-        for k in range(1,3):
-            for i in range(2, len(prices)+1):
-                buy[k][i] = max(buy[k][i-1], sell[k-1][i-1]-prices[i-1])
-                sell[k][i] = max(sell[k][i-1], buy[k][i-1] + prices[i-1])
-        pprint(buy)
-        pprint(sell)
-        return sell[-1][-1]
-
-    def maxProfit(self, prices):
-        """
-        :type prices: List[int]
-        :rtype: int
-        """
-
-        if len(prices) < 2:
-            return 0
-
-        buy = [[0]*(len(prices) + 1) for i in range(3)]
-        sell = [[0]*(len(prices) + 1) for i in range(3)]
-
-        # buy[0][1] = buy[0][0] = -prices[0]
-        buy[1][0] = buy[1][1] = -prices[0]
-        buy[2][0] = buy[2][1] = -prices[0]
         own_1,own_2,no_own_1,no_own_2 = 0,0,0,0
         own_1 = own_2 = -prices[0]
 

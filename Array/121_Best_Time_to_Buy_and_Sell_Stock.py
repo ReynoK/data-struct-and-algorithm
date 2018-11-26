@@ -1,6 +1,5 @@
 import unittest
 
-
 class Solution:
     def maxProfit(self, prices):
         """
@@ -8,21 +7,19 @@ class Solution:
         :rtype: int
         """
         
-        if len(prices) == 0:
+        if len(prices) < 2:
             return 0
 
-        min_price = prices[0]
-        max_profit = 0
+        max_profit = 0 
+        min_buy_price = prices[0]
 
-        for price in prices[1:]:
-            if price > min_price:
-                max_profit = max(max_profit, price - min_price)
+        for price in prices:
+            if price > min_buy_price:
+                max_profit = max(max_profit, price - min_buy_price)
             else:
-                min_price = min(min_price, price)
-
+                min_buy_price = min(min_buy_price, price)
+        
         return max_profit
-            
-
 
 class TestSolution(unittest.TestCase):
     def setUp(self):

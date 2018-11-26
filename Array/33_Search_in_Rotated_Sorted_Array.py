@@ -1,6 +1,5 @@
 import unittest
 
-
 class Solution:
   def search(self, nums, target):
     """
@@ -8,27 +7,31 @@ class Solution:
     :type target: int
     :rtype: int
     """
-    l = 0
-    h = len(nums) - 1
 
+    if len(nums) == 0:
+        return -1
+
+    l,h = 0,len(nums) -1
+    
     while l <= h:
-        m = (l + h) // 2
-        if nums[m] == target:
-            return m
-        
-        if nums[m] >= nums[l]:
-            if target >= nums[l] and target < nums[m]:
-                h = m - 1
+        mid = l + (h-l)//2
+
+        if nums[mid] == target:
+            return mid
+
+        if nums[mid] >= nums[l]:
+            # 左边有序
+            if target >= nums[l] and target < nums[mid]:
+                h = mid -1
             else:
-                l = m + 1
+                l = mid + 1
         else:
-            if target> nums[m] and target <= nums[h]:
-                l = m + 1
+            # 右边有序
+            if target > nums[mid] and target <= nums[h]:
+                l = mid + 1
             else:
-                h = m - 1
-
+                h = mid - 1
     return -1
-
 
 class TestSolution(unittest.TestCase):
     def setUp(self):
